@@ -1,0 +1,5 @@
+rootProject.name = 'spring-boot-hazelcast-cluster-practice'
+
+include 'client-application'
+include 'node-application-1'
+include 'node-application-2'
