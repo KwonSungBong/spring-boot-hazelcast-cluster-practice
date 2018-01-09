@@ -45,5 +45,8 @@ public class MigrationService {
         return sourceInformationList;
     }
 
+    public void poll() {
+        System.out.println("TEST");
+    }
 
 }
