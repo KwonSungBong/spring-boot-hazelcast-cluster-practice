@@ -1,7 +1,6 @@
-package com.example.demo.config;
+package demo.config;
 
-import com.example.demo.entity.SourceInformation;
-import com.example.demo.serializer.JsonSerializerConfig;
+import demo.dto.TestData;
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.core.HazelcastInstance;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Arrays;
 
 /**
- * Created by ksb on 2018. 1. 7..
+ * Created by whilemouse on 17. 9. 5.
  */
 @Configuration
 public class CacheConfig {
@@ -34,7 +33,7 @@ public class CacheConfig {
                 .getSerializerConfigs()
                 .addAll(
                         Arrays.asList(
-                                new JsonSerializerConfig(SourceInformation.class, SourceInformation.TYPE_ID)
+                                new JsonSerializerConfig(TestData.class, TestData.TYPE_ID)
                         ));
 
         return HazelcastClient.newHazelcastClient(config);
