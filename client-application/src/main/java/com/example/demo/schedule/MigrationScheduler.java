@@ -14,7 +14,7 @@ public class MigrationScheduler {
     @Autowired
     private MigrationService migrationService;
 
-    @Scheduled(initialDelay = 10 * 1000, fixedDelay = 1 * 1000)
+//    @Scheduled(initialDelay = 10 * 1000, fixedDelay = 1 * 1000)
     public void pollCmsData() throws InterruptedException {
         migrationService.poll();
     }

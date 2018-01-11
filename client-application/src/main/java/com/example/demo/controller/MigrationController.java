@@ -18,7 +18,7 @@ public class MigrationController {
 
     @GetMapping
     public void migration(){
-
+        migrationService.migration();
     }
 
 }
