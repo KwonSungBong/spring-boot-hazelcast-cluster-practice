@@ -1,7 +1,6 @@
 package com.example.demo.repository;
 
-import com.google.common.base.CaseFormat;
-import com.google.common.base.Converter;
+import com.example.demo.util.SqlBuilder;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -21,18 +20,17 @@ public class AnyTableMergeRepository {
     private final int PARTITION_SIZE = 40;
 
     @Transactional
-    public int merge(List<? extends Object> entities, String tableName, List<String> fieldNames) {
-        return merge(entities, tableName, fieldNames, false);
+    public int merge(List<? extends Object> entities, String tableName, List<String[]> columnList) {
+        return merge(entities, tableName, columnList, false);
     }
 
     @Transactional
-    public int merge(List<? extends Object> entities, String tableName, List<String> fieldNames, boolean isThrowable) {
+    public int merge(List<? extends Object> entities, String tableName, List<String[]> columnList, boolean isThrowable) {
         int executedCnt = 0;
         String query = null;
         for (List<?> entityList : Lists.partition(entities, PARTITION_SIZE)) {
             try {
-                //query = MergeIntoSql.build(entityList, tableName, fieldNames);
-                query = buildSql(entityList, tableName, fieldNames);
+                query = SqlBuilder.buildMergeSql(entityList, tableName, columnList);
                 executedCnt += entityManager.createNativeQuery(query)
                         .executeUpdate();
             } catch (Exception e) {
@@ -46,35 +44,5 @@ public class AnyTableMergeRepository {
         log.trace("merge data into {}, size: {}", tableName, executedCnt);
         return executedCnt;
     }
-
-    private String buildSql(List<? extends Object> entities, String tableName, List<String> fieldNames) {
-//        "insert into destination_information(destination_one, destination_two, destination_three, " +
-//                "destination_four, destination_five, destination_six, destination_seven, destination_eight, " +
-//                "destination_nine, destination_ten) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        List<String> fields = Lists.newArrayList();
-        for(String fieldName : fieldNames) {
-            final String columnName = DB_COLUMN_NAME_CONVERTER.convert(fieldName);
-            fields.add(columnName);
-        }
-
-        StringBuilder sql = new StringBuilder();
-        sql.append("INSERT_INTO (");
-        for(int i=0; i<fields.size(); i++) {
-            sql.append(fields.get(i));
-            if(i == fields.size()) {
-                sql.append(") ");
-            } else {
-                sql.append(", ");
-            }
-        }
-        sql.append("VALUES (");
-
-
-
-        return "";
-    }
-
-    private static final Converter<String, String> DB_COLUMN_NAME_CONVERTER = CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.UPPER_UNDERSCORE);
 
 }

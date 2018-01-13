@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by ksb on 2018. 1. 9..
@@ -24,5 +25,10 @@ public class SourceInformation implements Serializable {
     private String sourceEight;
     private String sourceNine;
     private String sourceTen;
+
+    private int sourceInt;
+    private boolean sourceBoolean;
+    private InformationEnumType sourceEnumType;
+    private Date sourceDate;
 
 }

@@ -21,7 +21,8 @@ public class MergeController {
 
     @GetMapping("/save")
     public int save(){
-        return mergeService.save();
+        return mergeService.saveAny();
+//        return mergeService.save();
     }
 
     @GetMapping("/find")

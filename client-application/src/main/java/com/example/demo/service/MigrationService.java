@@ -36,7 +36,7 @@ public class MigrationService {
     }
 
     public void poll() {
-        merge();
+//        merge();
     }
 
     private void load(boolean reset) {
@@ -70,30 +70,30 @@ public class MigrationService {
         }
     }
 
-    private void merge() {
-        List<SourceInformation> sourceInformationList = queueRepository.dequeue();
-
-        if (sourceInformationList.size() == 0) return;
-
-        int updateSize = 0;
-        try {
-            updateSize = anyTableMergeRepository.merge(sourceInformationList, "DESTINATION_INFORMATION",
-                    Arrays.asList("id", "one", "two", "three", "four",
-                            "five", "six", "seven", "eight", "nine", "ten"));
-        } catch (Exception e) {
-            if (sourceInformationList.size() < 5) {
-                for (SourceInformation sourceInformation : sourceInformationList) {
-                    queueRepository.enqueue(Lists.newArrayList(sourceInformation));
-                }
-            } else {
-                Lists.partition(sourceInformationList, sourceInformationList.size() / 2).forEach(partition -> {
-                    queueRepository.enqueue(Lists.newArrayList(partition));
-                });
-            }
-            throw e;
-        }
-
-        log.info("update information. size: {}", updateSize);
-    }
+//    private void merge() {
+//        List<SourceInformation> sourceInformationList = queueRepository.dequeue();
+//
+//        if (sourceInformationList.size() == 0) return;
+//
+//        int updateSize = 0;
+//        try {
+//            updateSize = anyTableMergeRepository.merge(sourceInformationList, "DESTINATION_INFORMATION",
+//                    Arrays.asList("id", "one", "two", "three", "four",
+//                            "five", "six", "seven", "eight", "nine", "ten"));
+//        } catch (Exception e) {
+//            if (sourceInformationList.size() < 5) {
+//                for (SourceInformation sourceInformation : sourceInformationList) {
+//                    queueRepository.enqueue(Lists.newArrayList(sourceInformation));
+//                }
+//            } else {
+//                Lists.partition(sourceInformationList, sourceInformationList.size() / 2).forEach(partition -> {
+//                    queueRepository.enqueue(Lists.newArrayList(partition));
+//                });
+//            }
+//            throw e;
+//        }
+//
+//        log.info("update information. size: {}", updateSize);
+//    }
 
 }

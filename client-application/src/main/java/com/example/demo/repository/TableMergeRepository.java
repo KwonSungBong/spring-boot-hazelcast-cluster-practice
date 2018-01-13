@@ -43,7 +43,7 @@ public class TableMergeRepository {
         return merge(mergeEntities, tableName, fieldNames, false);
     }
 
-
+// 단위 나눠서 한방에 쿼리 보내도록 수정
     @Transactional
     public int merge(List<DestinationInformation> entities, String tableName, List<String> fieldNames, boolean isThrowable) {
         int executedCnt = 0;
